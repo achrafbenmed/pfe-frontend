@@ -17,6 +17,7 @@ import {
   Select,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
@@ -44,12 +45,12 @@ const ListReservation = () => {
   const [open, setOpen] = useState(false);
   const [nom, setNom] = useState("");
   const [produits, setProduits] = useState([]);
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, watch, reset } = useForm({
     defaultValues: {
       date_debut: null,
       date_fin: null,
-      montant: "",
-      id_produit: null,
+      produit: null,
+      qte: 0,
     },
   });
 
@@ -80,13 +81,22 @@ const ListReservation = () => {
     }
   }, []);
 
-  function ajoutReservation() {
+  function ajoutReservation(data) {
+    const { produit, date_debut, date_fin, qte } = data;
+    const montant = parseInt(qte) * produit.montant;
+
     axios
-      .post(process.env.REACT_APP_URL + "/reservation", { nom })
+      .post(process.env.REACT_APP_URL + "/reservation", {
+        id_produit: produit._id,
+        id_utilisateur: utilisateur._id,
+        date_debut,
+        date_fin,
+        montant,
+      })
       .then((reponse) => {
         getReservations();
         setOpen(false);
-        setNom("");
+        reset();
       })
       .catch((erreur) => {});
   }
@@ -177,7 +187,14 @@ const ListReservation = () => {
                     reservation.id_utilisateur.prenom}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {reservation.id_produit.nom}
+                  <Typography>{reservation.id_produit.nom}</Typography>
+                  <img
+                    height={60}
+                    src={
+                      "http://localhost:5000/images/" +
+                      reservation.id_produit.image
+                    }
+                  />
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {dayjs(reservation.date_debut).format("DD-MM-YYYY")}
@@ -239,10 +256,10 @@ const ListReservation = () => {
       </TableContainer>
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box sx={style}>
-          <form>
+          <form onSubmit={handleSubmit(ajoutReservation)}>
             <Controller
               control={control}
-              name="id_produit"
+              name="produit"
               render={({
                 field: { value, onChange },
                 fieldState: { error },
@@ -257,14 +274,13 @@ const ListReservation = () => {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={value}
-                      label="Catégorie"
+                      label="Produit"
                       onChange={onChange}
+                      renderValue={(value) => value.nom}
                     >
-                      {produits.map((categorie) => {
+                      {produits.map((produit) => {
                         return (
-                          <MenuItem value={categorie._id}>
-                            {categorie.nom}
-                          </MenuItem>
+                          <MenuItem value={produit}>{produit.nom}</MenuItem>
                         );
                       })}
                     </Select>
@@ -278,6 +294,8 @@ const ListReservation = () => {
               render={({ field: { value, onChange } }) => {
                 return (
                   <DatePicker
+                    minDate={dayjs()}
+                    maxDate={watch("date_fin")}
                     value={value}
                     label="Date de début"
                     onChange={onChange}
@@ -292,6 +310,7 @@ const ListReservation = () => {
               render={({ field: { value, onChange } }) => {
                 return (
                   <DatePicker
+                    minDate={watch("date_debut")}
                     label="Date de retour"
                     value={value}
                     onChange={onChange}
@@ -300,6 +319,35 @@ const ListReservation = () => {
                 );
               }}
             />
+
+            <Controller
+              control={control}
+              name="qte"
+              rules={{
+                max: {
+                  value: watch("produit") ? watch("produit").qte : 0,
+                  message: `Quantité maximale est ${
+                    watch("produit") ? watch("produit").qte : 1
+                  }`,
+                },
+                min: { value: 1, message: "Quantité minimale est 1" },
+              }}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
+                return (
+                  <TextField
+                    value={value}
+                    onChange={onChange}
+                    label="Quantité"
+                    error={!!error}
+                    helperText={error && error.message}
+                  />
+                );
+              }}
+            />
+            <Button type="submit">Ajouter une commande</Button>
           </form>
         </Box>
       </Modal>
