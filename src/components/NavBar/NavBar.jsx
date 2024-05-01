@@ -69,7 +69,13 @@ function NavBar() {
     },
   ];
   const settings = [
-    { id: 1, text: "Profil", action: () => {} },
+    {
+      id: 1,
+      text: "Profil",
+      action: () => {
+        navigate("/profile");
+      },
+    },
     { id: 2, text: "Recomendation", action: () => {} },
     { id: 3, text: "Panier", action: () => {} },
 

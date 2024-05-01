@@ -9,6 +9,9 @@ import ModifierProduit from "./pages/ModifierProduit/ModifierProduit";
 import ListCategories from "./pages/ListCategories/ListCategories";
 import ListUser from "./pages/ListUser/ListUser";
 import ListReservation from "./pages/ListReservation/ListReservation";
+import AjoutUtilisateur from "./pages/AjoutUtilisateur/AjoutUtilisateur";
+import ModifierUtilisateur from "./pages/ModifierUtilisateur/ModifierUtilisateur";
+import Profile from "./pages/Profile/Profile";
 
 function Navigateur() {
   const utilisateur = useSelector((state) => state.utilisateur);
@@ -23,7 +26,10 @@ function Navigateur() {
           <Route path="/produit/:id" Component={ModifierProduit} />
           <Route path="/categorie" Component={ListCategories} />
           <Route path="/utilisateurs" Component={ListUser} />
+          <Route path="/ajout_utilisateur" Component={AjoutUtilisateur} />
+          <Route path="/modifier_utilisateur" Component={ModifierUtilisateur} />
           <Route path="/reservations" Component={ListReservation} />
+          <Route path="/profile" Component={Profile} />
 
           <Route
             path="*"

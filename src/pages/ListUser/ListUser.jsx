@@ -10,6 +10,7 @@ import axios from "axios";
 import { Box, Button, Modal, Stack, TextField } from "@mui/material";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -25,6 +26,7 @@ const style = {
 const ListUser = () => {
   const utilisateur = useSelector((state) => state.utilisateur);
   const [utilisateurs, setUtilisateurs] = useState([]);
+  const navigate = useNavigate();
 
   function Restaurer(id) {
     axios
@@ -88,7 +90,13 @@ const ListUser = () => {
   return (
     <>
       {utilisateur.role === "admin" && (
-        <Button onClick={() => {}}>Ajouter Utilisateur</Button>
+        <Button
+          onClick={() => {
+            navigate("/ajout_utilisateur");
+          }}
+        >
+          Ajouter Utilisateur
+        </Button>
       )}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -163,7 +171,14 @@ const ListUser = () => {
                     {utilisateur.role === "admin" && item.supprime == false ? (
                       <>
                         <Button
-                          onClick={() => {}}
+                          onClick={() => {
+                            navigate("/modifier_utilisateur", {
+                              state: {
+                                utilisateur: item,
+                                path: "/utilisateurs",
+                              },
+                            });
+                          }}
                           color="warning"
                           variant="contained"
                         >
