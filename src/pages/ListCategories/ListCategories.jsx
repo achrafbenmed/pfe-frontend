@@ -8,7 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { Box, Button, Modal, Stack, TextField } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import actions from "../../redux/actions";
 
 const style = {
   position: "absolute",
@@ -28,6 +29,7 @@ export default function ListCategories() {
   const [typeForm, setTypeForm] = useState("ajout");
   const [nom, setNom] = useState("");
   const [id, setId] = useState(null);
+  const dispatch = useDispatch();
 
   function Restaurer(id) {
     axios
@@ -35,7 +37,9 @@ export default function ListCategories() {
       .then((reponse) => {
         tousCategorie();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function tousCategorie() {
@@ -44,7 +48,9 @@ export default function ListCategories() {
       .then((reponse) => {
         setCategories(reponse.data);
       })
-      .catch((error) => console.log(error));
+      .catch((erreur) =>
+        dispatch({ type: actions.error, error: erreur.message })
+      );
   }
   function getCategories() {
     axios
@@ -52,7 +58,9 @@ export default function ListCategories() {
       .then((reponse) => {
         setCategories(reponse.data);
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function supprimer(id) {
@@ -61,7 +69,9 @@ export default function ListCategories() {
       .then((reponse) => {
         tousCategorie();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   useEffect(() => {
@@ -80,7 +90,9 @@ export default function ListCategories() {
         setOpen(false);
         setNom("");
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function modifierCategorie(id) {
@@ -91,7 +103,9 @@ export default function ListCategories() {
         setOpen(false);
         setNom("");
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   return (

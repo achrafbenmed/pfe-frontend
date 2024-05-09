@@ -11,9 +11,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
+import actions from "../../redux/actions";
+import { useDispatch } from "react-redux";
 
 const ModifierProduit = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const [categories, setCategories] = useState([]);
 
@@ -51,7 +54,7 @@ const ModifierProduit = () => {
         navigate("/");
       })
       .catch((erreur) => {
-        console.log(erreur);
+        dispatch({ type: actions.error, error: erreur.message });
       });
   }
 
@@ -68,7 +71,9 @@ const ModifierProduit = () => {
       .then((reponse) => {
         setCategories(reponse.data);
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
   useEffect(() => {
     getCategories();

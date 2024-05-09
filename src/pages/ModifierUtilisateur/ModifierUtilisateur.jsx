@@ -18,9 +18,12 @@ import {
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import actions from "../../redux/actions";
+import { useDispatch } from "react-redux";
 
 const ModifierUtilisateur = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const utilisateur = location.state.utilisateur;
   const path = location.state.path;
   const navigate = useNavigate();
@@ -41,10 +44,11 @@ const ModifierUtilisateur = () => {
     axios
       .put(process.env.REACT_APP_URL + "/utilisateur/" + utilisateur._id, data)
       .then((reponse) => {
+        dispatch({ type: actions.success, success: "Profil modifié" });
         navigate(path);
       })
       .catch((erreur) => {
-        console.log(erreur.message);
+        dispatch({ type: actions.error, error: erreur.message });
       });
   };
   return (

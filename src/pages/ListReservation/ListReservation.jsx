@@ -19,7 +19,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { Controller, useForm } from "react-hook-form";
 
@@ -27,6 +27,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { frFR } from "@mui/x-date-pickers/locales";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
+import actions from "../../redux/actions";
 
 const style = {
   position: "absolute",
@@ -43,8 +44,8 @@ const ListReservation = () => {
   const utilisateur = useSelector((state) => state.utilisateur);
   const [reservations, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
-  const [nom, setNom] = useState("");
   const [produits, setProduits] = useState([]);
+  const dispatch = useDispatch();
   const { control, handleSubmit, watch, reset } = useForm({
     defaultValues: {
       date_debut: null,
@@ -60,7 +61,9 @@ const ListReservation = () => {
       .then((reponse) => {
         setCategories(reponse.data);
       })
-      .catch((error) => console.log(error));
+      .catch((erreur) =>
+        dispatch({ type: actions.error, error: erreur.message })
+      );
   }
 
   function getReservations() {
@@ -69,7 +72,9 @@ const ListReservation = () => {
       .then((reponse) => {
         setCategories(reponse.data);
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   useEffect(() => {
@@ -83,7 +88,10 @@ const ListReservation = () => {
 
   function ajoutReservation(data) {
     const { produit, date_debut, date_fin, qte } = data;
-    const montant = parseInt(qte) * produit.montant;
+    const montant =
+      parseInt(qte) *
+      produit.montant *
+      (dayjs(date_fin).diff(date_debut, "days") + 1);
 
     axios
       .post(process.env.REACT_APP_URL + "/reservation", {
@@ -98,7 +106,9 @@ const ListReservation = () => {
         setOpen(false);
         reset();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function accepterReservation(reservation) {
@@ -110,7 +120,9 @@ const ListReservation = () => {
       .then((reponse) => {
         tousReservations();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function refuserReservation(reservation) {
@@ -122,7 +134,9 @@ const ListReservation = () => {
       .then((reponse) => {
         tousReservations();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function restaurerReservation(reservation) {
@@ -134,7 +148,9 @@ const ListReservation = () => {
       .then((reponse) => {
         tousReservations();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function listeProduits() {
@@ -143,7 +159,9 @@ const ListReservation = () => {
       .then((reponse) => {
         setProduits(reponse.data);
       })
-      .catch((error) => console.log(error));
+      .catch((erreur) =>
+        dispatch({ type: actions.error, error: erreur.message })
+      );
   }
 
   return (

@@ -2,6 +2,8 @@ import actions from "./actions";
 
 const valeurInitial = {
   utilisateur: JSON.parse(localStorage.getItem("utilisateur")) || null,
+  error: "",
+  success: "",
 };
 
 function reducer(state = valeurInitial, action) {
@@ -15,6 +17,10 @@ function reducer(state = valeurInitial, action) {
     case actions.deconnecter:
       localStorage.setItem("utilisateur", null);
       return { ...state, utilisateur: null };
+    case actions.error:
+      return { ...state, error: action.error, success: "" };
+    case actions.success:
+      return { ...state, success: action.success, error: "" };
 
     default:
       return state;

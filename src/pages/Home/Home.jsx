@@ -3,12 +3,17 @@ import React, { useEffect, useState } from "react";
 import Produit from "../../components/Produit/Produit";
 import { useNavigate } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Search from "../../components/Search/Search";
+import actions from "../../redux/actions";
 
 const Home = () => {
+  const [filtredProduits, setFiltredProduits] = useState([]);
   const [produits, setProduits] = useState([]);
   const utilisateur = useSelector((state) => state.utilisateur);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   function supprimer(produit) {
     axios
       .delete(process.env.REACT_APP_URL + "/produit/" + produit._id)
@@ -20,7 +25,7 @@ const Home = () => {
         }
       })
       .catch((erreur) => {
-        console.log(erreur);
+        dispatch({ type: actions.error, error: erreur.message });
       });
   }
 
@@ -34,7 +39,9 @@ const Home = () => {
       .then((reponse) => {
         setProduits(reponse.data);
       })
-      .catch((error) => console.log(error));
+      .catch((erreur) =>
+        dispatch({ type: actions.error, error: erreur.message })
+      );
   }
 
   function listeProduits() {
@@ -43,7 +50,9 @@ const Home = () => {
       .then((reponse) => {
         setProduits(reponse.data);
       })
-      .catch((error) => console.log(error));
+      .catch((erreur) =>
+        dispatch({ type: actions.error, error: erreur.message })
+      );
   }
   useEffect(() => {
     if (utilisateur.role === "admin") {
@@ -54,9 +63,12 @@ const Home = () => {
   }, []);
 
   return (
-    <Stack alignItems={"flex-start"}>
+    <Stack height={"100%"} position={"absolute"}>
       {utilisateur.role === "admin" && (
         <Button
+          sx={{ width: 200, m: "5px" }}
+          color="success"
+          variant="contained"
           onClick={() => {
             navigate("/ajout_produit");
           }}
@@ -64,17 +76,22 @@ const Home = () => {
           Ajouter produit
         </Button>
       )}
-      <Stack direction={"row"} flex={1} flexWrap={"wrap"}>
-        {produits.map((produit) => {
-          return (
-            <Produit
-              produit={produit}
-              supprimer={supprimer}
-              clickModifier={clickModifier}
-              getAll={tousProduits}
-            />
-          );
-        })}
+      <Stack alignItems={"flex-start"} flexDirection={"row"}>
+        <Search setProduits={setFiltredProduits} produits={produits} />
+
+        <Stack direction={"row"} flex={1} flexWrap={"wrap"}>
+          {filtredProduits.map((produit) => {
+            return (
+              <Produit
+                key={produit._id}
+                produit={produit}
+                supprimer={supprimer}
+                clickModifier={clickModifier}
+                getAll={tousProduits}
+              />
+            );
+          })}
+        </Stack>
       </Stack>
     </Stack>
   );

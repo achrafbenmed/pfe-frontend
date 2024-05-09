@@ -45,6 +45,7 @@ function NavBar() {
       action: () => {
         navigate("/");
       },
+      roles: ["client", "admin", "vendeur", "vendeur_super"],
     },
     {
       id: 2,
@@ -52,6 +53,7 @@ function NavBar() {
       action: () => {
         navigate("/categorie");
       },
+      roles: ["admin", "vendeur", "vendeur_super"],
     },
     {
       id: 3,
@@ -59,6 +61,7 @@ function NavBar() {
       action: () => {
         navigate("/utilisateurs");
       },
+      roles: ["admin", "vendeur", "vendeur_super"],
     },
     {
       id: 4,
@@ -66,6 +69,7 @@ function NavBar() {
       action: () => {
         navigate("/reservations");
       },
+      roles: ["admin", "vendeur", "vendeur_super"],
     },
   ];
   const settings = [
@@ -76,10 +80,15 @@ function NavBar() {
         navigate("/profile");
       },
     },
-    { id: 2, text: "Recomendation", action: () => {} },
-    { id: 3, text: "Panier", action: () => {} },
-
     {
+      id: 2,
+      text: "Mes réservations",
+      action: () => {
+        navigate("/mes_reservations");
+      },
+    },
+    {
+      id: 4,
       text: "Logout",
       action: () => {
         dispatch({ type: actions.deconnecter });
@@ -110,16 +119,19 @@ function NavBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
+            {utilisateur && (
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
+
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -138,17 +150,22 @@ function NavBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page.id}
-                  onClick={() => {
-                    handleCloseNavMenu();
-                    page.action();
-                  }}
-                >
-                  <Typography textAlign="center">{page.text}</Typography>
-                </MenuItem>
-              ))}
+              {utilisateur &&
+                pages.map((page) => {
+                  return (
+                    page.roles.includes(utilisateur.role) && (
+                      <MenuItem
+                        key={page.id}
+                        onClick={() => {
+                          handleCloseNavMenu();
+                          page.action();
+                        }}
+                      >
+                        <Typography textAlign="center">{page.text}</Typography>
+                      </MenuItem>
+                    )
+                  );
+                })}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -171,18 +188,22 @@ function NavBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.id}
-                onClick={() => {
-                  handleCloseNavMenu();
-                  page.action();
-                }}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page.text}
-              </Button>
-            ))}
+            {utilisateur &&
+              pages.map(
+                (page) =>
+                  page.roles.includes(utilisateur.role) && (
+                    <Button
+                      key={page.id}
+                      onClick={() => {
+                        handleCloseNavMenu();
+                        page.action();
+                      }}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                      {page.text}
+                    </Button>
+                  )
+              )}
           </Box>
 
           {utilisateur != null ? (
@@ -230,7 +251,7 @@ function NavBar() {
                 variant="contained"
                 color="warning"
                 onClick={() => {
-                  navigate("/connecter");
+                  navigate("/");
                 }}
               >
                 Se Connecter

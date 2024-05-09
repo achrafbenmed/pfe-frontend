@@ -17,9 +17,12 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import actions from "../../redux/actions";
+import { useDispatch } from "react-redux";
 
 const AjoutUtilisateur = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { control, handleSubmit } = useForm({
     defaultValues: {
       nom: "",
@@ -41,7 +44,7 @@ const AjoutUtilisateur = () => {
         navigate("/utilisateurs");
       })
       .catch((erreur) => {
-        console.log(erreur.message);
+        dispatch({ type: actions.error, error: erreur.message });
       });
   };
 

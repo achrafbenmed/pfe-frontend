@@ -1,9 +1,14 @@
 import { Button, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import actions from "../../redux/actions";
 
 const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const utilisateur = useSelector((state) => state.utilisateur);
   function Restaurer() {
     axios
@@ -11,7 +16,9 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
       .then((reponse) => {
         getAll();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   return (
@@ -20,7 +27,12 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
       position={"relative"}
       height={400}
       width={250}
-      sx={{ background: "#bbcfe275", padding: "5px", borderRadius: "16px" }}
+      sx={{
+        background: "#bbcfe275",
+        padding: "5px",
+        borderRadius: "16px",
+        cursor: "pointer",
+      }}
     >
       <Typography
         sx={{
@@ -35,6 +47,9 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
       </Typography>
       <Typography>{produit.prix + " DT"}</Typography>
       <img
+        onClick={() => {
+          navigate("/produit", { state: { produit } });
+        }}
         style={{ height: "100%", width: "auto", objectFit: "cover" }}
         src={"http://localhost:5000/images/" + produit.image}
       />

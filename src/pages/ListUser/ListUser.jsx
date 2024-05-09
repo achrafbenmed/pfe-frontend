@@ -8,9 +8,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { Box, Button, Modal, Stack, TextField } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import actions from "../../redux/actions";
 
 const style = {
   position: "absolute",
@@ -27,6 +28,7 @@ const ListUser = () => {
   const utilisateur = useSelector((state) => state.utilisateur);
   const [utilisateurs, setUtilisateurs] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function Restaurer(id) {
     axios
@@ -34,7 +36,9 @@ const ListUser = () => {
       .then((reponse) => {
         tousUtilisateurs();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function tousUtilisateurs() {
@@ -43,7 +47,9 @@ const ListUser = () => {
       .then((reponse) => {
         setUtilisateurs(reponse.data);
       })
-      .catch((error) => console.log(error));
+      .catch((erreur) =>
+        dispatch({ type: actions.error, error: erreur.message })
+      );
   }
   function getUtilisateurs() {
     axios
@@ -51,7 +57,9 @@ const ListUser = () => {
       .then((reponse) => {
         setUtilisateurs(reponse.data);
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function supprimer(id) {
@@ -60,7 +68,9 @@ const ListUser = () => {
       .then((reponse) => {
         tousUtilisateurs();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   useEffect(() => {
@@ -77,14 +87,18 @@ const ListUser = () => {
       .then((reponse) => {
         getUtilisateurs();
       })
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   function clickModifierUtilisateur(id) {
     axios
       .put(process.env.REACT_APP_URL + "/categorie/" + id, {})
       .then((reponse) => {})
-      .catch((erreur) => {});
+      .catch((erreur) => {
+        dispatch({ type: actions.error, error: erreur.message });
+      });
   }
 
   return (
