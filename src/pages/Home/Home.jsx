@@ -55,7 +55,7 @@ const Home = () => {
       );
   }
   useEffect(() => {
-    if (utilisateur.role === "admin") {
+    if (utilisateur && utilisateur.role === "admin") {
       tousProduits();
     } else {
       listeProduits();
@@ -64,7 +64,7 @@ const Home = () => {
 
   return (
     <Stack height={"100%"} position={"absolute"}>
-      {utilisateur.role === "admin" && (
+      {utilisateur && utilisateur.role === "admin" && (
         <Button
           sx={{ width: 200, m: "5px" }}
           color="success"

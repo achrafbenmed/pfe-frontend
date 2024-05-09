@@ -71,7 +71,7 @@ function Navigateur() {
         </Routes>
       ) : (
         <Routes>
-          <Route path="/" Component={Se_Connecter} />
+          <Route path="/" Component={Home} />
           <Route path="/inscrire" Component={Inscrire} />
           <Route path="/connecter" Component={Se_Connecter} />
         </Routes>

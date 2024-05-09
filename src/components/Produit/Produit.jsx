@@ -63,6 +63,7 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
         {produit.supprime ? (
           <Button onClick={() => Restaurer()}>Restorer</Button>
         ) : (
+          utilisateur &&
           utilisateur.role !== "client" && (
             <>
               <Button

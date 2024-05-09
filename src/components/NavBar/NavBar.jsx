@@ -251,7 +251,7 @@ function NavBar() {
                 variant="contained"
                 color="warning"
                 onClick={() => {
-                  navigate("/");
+                  navigate("/connecter");
                 }}
               >
                 Se Connecter
