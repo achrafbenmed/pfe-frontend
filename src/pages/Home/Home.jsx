@@ -90,7 +90,7 @@ const Home = () => {
   }
 
   // Appel de la fonction pour choisir 4 éléments aléatoires
-  let elementsAleatoires = choisirElementsAleatoires(produits, 4);
+  let elementsAleatoires = choisirElementsAleatoires(produits, 5);
 
   return (
     <Stack height={"100%"} position={"absolute"}>

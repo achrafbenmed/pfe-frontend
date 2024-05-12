@@ -13,12 +13,14 @@ import AjoutUtilisateur from "./pages/AjoutUtilisateur/AjoutUtilisateur";
 import ModifierUtilisateur from "./pages/ModifierUtilisateur/ModifierUtilisateur";
 import Profile from "./pages/Profile/Profile";
 import ProduitInfo from "./pages/ProduitInfo/ProduitInfo";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Snackbar, Stack } from "@mui/material";
 import actions from "./redux/actions";
 import MesReservations from "./pages/MesReservations/MesReservations";
 import Page404 from "./pages/Page404/Page404";
 import Panier from "./pages/Panier/Panier";
 import ContactUs from "./pages/ContactUs/ContactUs";
+import AboutUs from "./pages/AboutUs/AboutUs";
+import Footer from "./components/Footer/Footer";
 
 function Navigateur() {
   const { utilisateur, error, success } = useSelector((state) => state);
@@ -26,6 +28,7 @@ function Navigateur() {
   return (
     <>
       <NavBar />
+
       <Snackbar open={error !== ""} autoHideDuration={5000}>
         <Alert
           onClose={() => {
@@ -51,31 +54,41 @@ function Navigateur() {
         </Alert>
       </Snackbar>
 
-      {utilisateur ? (
-        <Routes>
-          <Route path="/" Component={Home} />
-          <Route path="/ajout_produit" Component={AjoutProduit} />
-          <Route path="/produit" Component={ProduitInfo} />
-          <Route path="/produit/:id" Component={ModifierProduit} />
-          <Route path="/categorie" Component={ListCategories} />
-          <Route path="/utilisateurs" Component={ListUser} />
-          <Route path="/ajout_utilisateur" Component={AjoutUtilisateur} />
-          <Route path="/modifier_utilisateur" Component={ModifierUtilisateur} />
-          <Route path="/reservations" Component={ListReservation} />
-          <Route path="/profile" Component={Profile} />
-          <Route path="/mes_reservations" Component={MesReservations} />
-          <Route path="/panier" Component={Panier} />
-          <Route path="/contact" Component={ContactUs} />
-          <Route path="*" Component={Page404} />
-        </Routes>
-      ) : (
-        <Routes>
-          <Route path="/" Component={Home} />
-          <Route path="/inscrire" Component={Inscrire} />
-          <Route path="/connecter" Component={Se_Connecter} />
-          <Route path="/contact" Component={ContactUs} />
-        </Routes>
-      )}
+      <Stack direction={"column"}>
+        <Stack sx={{ position: "relative !important" }}>
+          {utilisateur ? (
+            <Routes>
+              <Route path="/" Component={Home} />
+              <Route path="/ajout_produit" Component={AjoutProduit} />
+              <Route path="/produit" Component={ProduitInfo} />
+              <Route path="/produit/:id" Component={ModifierProduit} />
+              <Route path="/categorie" Component={ListCategories} />
+              <Route path="/utilisateurs" Component={ListUser} />
+              <Route path="/ajout_utilisateur" Component={AjoutUtilisateur} />
+              <Route
+                path="/modifier_utilisateur"
+                Component={ModifierUtilisateur}
+              />
+              <Route path="/reservations" Component={ListReservation} />
+              <Route path="/profile" Component={Profile} />
+              <Route path="/mes_reservations" Component={MesReservations} />
+              <Route path="/panier" Component={Panier} />
+              <Route path="/contact" Component={ContactUs} />
+              <Route path="/AboutUs" Component={AboutUs} />
+              <Route path="*" Component={Page404} />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path="/" Component={Home} />
+              <Route path="/inscrire" Component={Inscrire} />
+              <Route path="/connecter" Component={Se_Connecter} />
+              <Route path="/contact" Component={ContactUs} />
+              <Route path="/AboutUs" Component={AboutUs} />
+            </Routes>
+          )}
+        </Stack>
+        <Footer />
+      </Stack>
     </>
   );
 }

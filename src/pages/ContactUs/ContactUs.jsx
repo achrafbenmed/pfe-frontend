@@ -30,8 +30,7 @@ const ContactUs = () => {
             </a>
           </Typography>
           <Typography textAlign={"left"}>
-            Adresse :جامع Avenue Béchir El Jaziri - شارع البشير الجزيري, Gabès
-            6000
+            Adresse : Avenue Béchir El Jaziri - شارع البشير الجزيري, Gabès 6000
           </Typography>
         </Stack>
       </Stack>

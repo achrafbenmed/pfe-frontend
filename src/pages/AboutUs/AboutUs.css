@@ -1,0 +1,14 @@
+/* AboutUs.css */
+
+.about-us {
+  padding: 20px;
+}
+
+.about-us h2 {
+  color: #333;
+}
+
+.about-us p {
+  color: #666;
+  line-height: 1.6;
+}
