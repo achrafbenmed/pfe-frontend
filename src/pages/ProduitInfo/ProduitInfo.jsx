@@ -35,7 +35,7 @@ const style = {
 
 const ProduitInfo = () => {
   const location = useLocation();
-  const utilisateur = useSelector((state) => state.utilisateur);
+  const { utilisateur, panier } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const { control, handleSubmit, watch, reset } = useForm({
@@ -53,26 +53,52 @@ const ProduitInfo = () => {
       parseInt(qte) *
       location.state.produit.prix *
       (dayjs(date_fin).diff(date_debut, "days") + 1);
-    console.log(montant);
-    axios
-      .post(process.env.REACT_APP_URL + "/reservation", {
-        id_produit: location.state.produit._id,
-        id_utilisateur: utilisateur._id,
-        date_debut,
-        date_fin,
-        montant,
-      })
-      .then((reponse) => {
-        setOpen(false);
-        reset();
-        dispatch({
-          type: actions.success,
-          success: "Réservation enregistrée. L'admin va l'approuvée",
-        });
-      })
-      .catch((erreur) => {
-        dispatch({ type: actions.error, error: erreur.message });
+    const p = {
+      produit: location.state.produit,
+      date_debut,
+      date_fin,
+      montant,
+      qte: parseInt(qte),
+    };
+
+    const exist = panier.find((item) => {
+      return item.produit === p.produit;
+    });
+    if (exist) {
+      alert("déja pris");
+      return;
+    } else {
+      dispatch({
+        type: actions.addToCart,
+        item: p,
       });
+      setOpen(false);
+      reset();
+      dispatch({
+        type: actions.success,
+        success: "Produit ajouté au panier",
+      });
+    }
+
+    // axios
+    //   .post(process.env.REACT_APP_URL + "/reservation", {
+    //     id_produit: location.state.produit._id,
+    //     id_utilisateur: utilisateur._id,
+    //     date_debut,
+    //     date_fin,
+    //     montant,
+    //   })
+    //   .then((reponse) => {
+    //     setOpen(false);
+    //     reset();
+    //     dispatch({
+    //       type: actions.success,
+    //       success: "Réservation enregistrée. L'admin va l'approuvée",
+    //     });
+    //   })
+    //   .catch((erreur) => {
+    //     dispatch({ type: actions.error, error: erreur.message });
+    //   });
   }
 
   return (

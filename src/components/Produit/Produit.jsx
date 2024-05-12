@@ -9,7 +9,7 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const utilisateur = useSelector((state) => state.utilisateur);
+  const { utilisateur } = useSelector((state) => state);
   function Restaurer() {
     axios
       .put(process.env.REACT_APP_URL + "/produit/restore/" + produit._id)
@@ -48,7 +48,14 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
       <Typography>{produit.prix + " DT"}</Typography>
       <img
         onClick={() => {
-          navigate("/produit", { state: { produit } });
+          if (utilisateur) navigate("/produit", { state: { produit } });
+          else {
+            navigate("/connecter");
+            dispatch({
+              type: actions.error,
+              error: "Vous devez être connecté",
+            });
+          }
         }}
         style={{ height: "100%", width: "auto", objectFit: "cover" }}
         src={"http://localhost:5000/images/" + produit.image}
