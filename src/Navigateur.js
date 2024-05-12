@@ -16,6 +16,9 @@ import ProduitInfo from "./pages/ProduitInfo/ProduitInfo";
 import { Alert, Snackbar } from "@mui/material";
 import actions from "./redux/actions";
 import MesReservations from "./pages/MesReservations/MesReservations";
+import Page404 from "./pages/Page404/Page404";
+import Panier from "./pages/Panier/Panier";
+import ContactUs from "./pages/ContactUs/ContactUs";
 
 function Navigateur() {
   const { utilisateur, error, success } = useSelector((state) => state);
@@ -61,19 +64,16 @@ function Navigateur() {
           <Route path="/reservations" Component={ListReservation} />
           <Route path="/profile" Component={Profile} />
           <Route path="/mes_reservations" Component={MesReservations} />
-
-          <Route
-            path="*"
-            Component={() => {
-              return 404;
-            }}
-          />
+          <Route path="/panier" Component={Panier} />
+          <Route path="/contact" Component={ContactUs} />
+          <Route path="*" Component={Page404} />
         </Routes>
       ) : (
         <Routes>
           <Route path="/" Component={Home} />
           <Route path="/inscrire" Component={Inscrire} />
           <Route path="/connecter" Component={Se_Connecter} />
+          <Route path="/contact" Component={ContactUs} />
         </Routes>
       )}
     </>

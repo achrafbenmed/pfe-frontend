@@ -15,12 +15,13 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { useDispatch, useSelector } from "react-redux";
 import actions from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
-
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Badge from "@mui/material/Badge";
 function NavBar() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const utilisateur = useSelector((state) => state.utilisateur);
+  const { utilisateur, panier } = useSelector((state) => state);
   const dispatch = useDispatch();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -88,10 +89,11 @@ function NavBar() {
       },
     },
     {
-      id: 4,
+      id: 3,
       text: "Logout",
       action: () => {
         dispatch({ type: actions.deconnecter });
+        navigate("/");
       },
     },
   ];
@@ -166,6 +168,13 @@ function NavBar() {
                     )
                   );
                 })}
+              <MenuItem
+                onClick={() => {
+                  handleCloseNavMenu();
+                }}
+              >
+                <Typography textAlign="center">Contacter nous</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -204,7 +213,26 @@ function NavBar() {
                     </Button>
                   )
               )}
+            <Button
+              onClick={() => {
+                handleCloseNavMenu();
+                navigate("/contact");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Contacter nous
+            </Button>
           </Box>
+          {utilisateur && (
+            <Badge sx={{ mx: 5 }} badgeContent={panier.length} color="primary">
+              <IconButton
+                sx={{ color: "white" }}
+                onClick={() => navigate("/panier")}
+              >
+                <ShoppingCartIcon />
+              </IconButton>
+            </Badge>
+          )}
 
           {utilisateur != null ? (
             <Box sx={{ flexGrow: 0 }}>

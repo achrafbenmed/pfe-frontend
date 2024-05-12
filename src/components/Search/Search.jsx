@@ -7,6 +7,7 @@ import {
   RadioGroup,
   Slider,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -17,7 +18,8 @@ import { useDispatch } from "react-redux";
 const Search = ({ setProduits, produits }) => {
   const [categories, setCategories] = useState([]);
   const [categorie, setCategorie] = useState("");
-  const [value, setValue] = React.useState([0, 0]);
+  const [prix, setPrix] = React.useState([0, 0]);
+  const [nom, setNom] = React.useState("");
   const dispatch = useDispatch();
 
   const marks = [
@@ -50,25 +52,33 @@ const Search = ({ setProduits, produits }) => {
   useEffect(() => {
     getCategories();
   }, []);
+
   const filterProduits = () => {
-    const filterCategorie =
-      categorie == ""
+    const filterName =
+      nom == ""
         ? produits
         : produits.filter((produit) => {
+            return produit.nom.toLowerCase().includes(nom.toLowerCase());
+          });
+
+    const filterCategorie =
+      categorie == ""
+        ? filterName
+        : filterName.filter((produit) => {
             return produit.idCategorie._id === categorie;
           });
 
     const filterPrix =
-      value[0] == 0 && value[1] == 0
+      prix[0] == 0 && prix[1] == 0
         ? filterCategorie
         : filterCategorie.filter((produit) => {
-            return produit.prix >= value[0] && produit.prix <= value[1];
+            return produit.prix >= prix[0] && produit.prix <= prix[1];
           });
     setProduits(filterPrix);
   };
   useEffect(() => {
     filterProduits();
-  }, [produits, categorie, value]);
+  }, [produits, categorie, prix, nom]);
 
   return (
     <Stack
@@ -78,9 +88,18 @@ const Search = ({ setProduits, produits }) => {
       minHeight={"100vh"}
       width={300}
       padding={"30px"}
-      spacing={10}
+      spacing={8}
       height={"-webkit-fill-available"}
     >
+      <FormControl>
+        <FormLabel id="demo-radio-buttons-group-label">Nom</FormLabel>
+        <TextField
+          value={nom}
+          onChange={(e) => setNom(e.target.value)}
+          label="Nom"
+          id="demo-radio-buttons"
+        />
+      </FormControl>
       <FormControl>
         <FormLabel id="demo-radio-buttons-group-label">Catégorie</FormLabel>
         <RadioGroup
@@ -108,9 +127,9 @@ const Search = ({ setProduits, produits }) => {
         sx={{ width: "75%" }}
         max={1000}
         getAriaLabel={() => "Temperature range"}
-        value={value}
+        value={prix}
         onChange={(e) => {
-          setValue(e.target.value);
+          setPrix(e.target.value);
         }}
         valueLabelDisplay="auto"
       />
@@ -119,7 +138,8 @@ const Search = ({ setProduits, produits }) => {
         type="reset"
         onClick={() => {
           setCategorie("");
-          setValue([0, 0]);
+          setNom("");
+          setPrix([0, 0]);
           setProduits(produits);
         }}
       >
