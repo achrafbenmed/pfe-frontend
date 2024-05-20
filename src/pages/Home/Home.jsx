@@ -89,11 +89,11 @@ const Home = () => {
     return elementsChoisis;
   }
 
-  // Appel de la fonction pour choisir 4 éléments aléatoires
+  // Appel de la fonction pour choisir 5 éléments aléatoires
   let elementsAleatoires = choisirElementsAleatoires(produits, 5);
 
   return (
-    <Stack height={"100%"} position={"absolute"}>
+    <Stack height={"100%"} position={"relative"}>
       {utilisateur && utilisateur.role === "admin" && (
         <Button
           sx={{ width: 200, m: "5px" }}

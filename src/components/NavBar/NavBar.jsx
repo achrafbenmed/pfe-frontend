@@ -42,14 +42,6 @@ function NavBar() {
   const pages = [
     {
       id: 1,
-      text: "Produits",
-      action: () => {
-        navigate("/");
-      },
-      roles: ["client", "admin", "vendeur", "vendeur_super"],
-    },
-    {
-      id: 2,
       text: "Catégories",
       action: () => {
         navigate("/categorie");
@@ -57,7 +49,7 @@ function NavBar() {
       roles: ["admin", "vendeur", "vendeur_super"],
     },
     {
-      id: 3,
+      id: 2,
       text: "Utilisateurs",
       action: () => {
         navigate("/utilisateurs");
@@ -65,7 +57,7 @@ function NavBar() {
       roles: ["admin", "vendeur", "vendeur_super"],
     },
     {
-      id: 4,
+      id: 3,
       text: "Réservations",
       action: () => {
         navigate("/reservations");
@@ -117,7 +109,7 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Baby-Fashion
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -168,6 +160,14 @@ function NavBar() {
                     )
                   );
                 })}
+
+              <MenuItem
+                onClick={() => {
+                  handleCloseNavMenu();
+                }}
+              >
+                <Typography textAlign="center">Contacter nous</Typography>
+              </MenuItem>
               <MenuItem
                 onClick={() => {
                   handleCloseNavMenu();
@@ -194,9 +194,29 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Baby-Fashion
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Button
+              onClick={() => {
+                handleCloseNavMenu();
+                navigate("/home");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Home
+            </Button>
+          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Button
+              onClick={() => {
+                handleCloseNavMenu();
+                navigate("/home");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              PRODUITS
+            </Button>
             {utilisateur &&
               pages.map(
                 (page) =>
@@ -213,6 +233,7 @@ function NavBar() {
                     </Button>
                   )
               )}
+
             <Button
               onClick={() => {
                 handleCloseNavMenu();
@@ -220,7 +241,16 @@ function NavBar() {
               }}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              Contacter nous
+              CONTACT US
+            </Button>
+            <Button
+              onClick={() => {
+                handleCloseNavMenu();
+                navigate("/AboutUs");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              ABOUT US
             </Button>
           </Box>
           {utilisateur && (

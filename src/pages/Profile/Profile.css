@@ -1,0 +1,52 @@
+.body {
+  position: relative;
+}
+.profile-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+  margin-bottom: 20px;
+}
+
+.profile-info p {
+  margin-bottom: 10px;
+}
+
+.profile-info p span {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.profile-button {
+  text-align: center;
+}
+
+.profile-button .MuiButton-root {
+  margin-top: 20px;
+}
+
+/* Customize the button color */
+.profile-button .MuiButton-containedPrimary {
+  background-color: #4caf50;
+}
+
+/* Adjust the hover effect */
+.profile-button .MuiButton-containedPrimary:hover {
+  background-color: #388e3c;
+}
+
+/* Customize the button text color */
+.profile-button .MuiButton-label {
+  color: white;
+}
+
+/* Adjust the button text color on hover */
+.profile-button .MuiButton-containedPrimary:hover .MuiButton-label {
+  color: white;
+}

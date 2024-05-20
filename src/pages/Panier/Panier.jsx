@@ -48,6 +48,9 @@ const Panier = () => {
           type: actions.success,
           success: "Réservation confirmée",
         });
+      })
+      .catch((error) => {
+        dispatch({ type: actions.error, error: error.response.data });
       });
   };
   return (

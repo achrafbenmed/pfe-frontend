@@ -1,24 +1,41 @@
-import React, { Component } from "react";
-import "./Carrousel.css";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import React from "react";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { useNavigate } from "react-router-dom";
+import "./Carrousel.css";
 
 const Carrousel = ({ elements }) => {
   const navigate = useNavigate();
 
   return (
-    <div style={{ margin: 30 }}>
-      <Carousel autoPlay infiniteLoop interval={2000}>
+    <div className="carousel-container">
+      <Carousel
+        autoPlay
+        infiniteLoop
+        interval={2000}
+        showThumbs={false}
+        showStatus={false}
+        showIndicators={true}
+        dynamicHeight={false}
+      >
         {elements.map((element) => (
-          <div onClick={() => {}}>
-            <img
-              onClick={() => {
-                navigate("/produit", { state: { produit: element } });
-              }}
-              src={"http://localhost:5000/images/" + element.image}
-            />
-            <p className="legend">{element.nom}</p>
+          <div
+            key={element._id}
+            className="carousel-slide"
+            onClick={() =>
+              navigate("/produit", { state: { produit: element } })
+            }
+          >
+            <div className="image-wrapper">
+              <img
+                src={`http://localhost:5000/images/${element.image}`}
+                alt={element.nom}
+                className="carousel-image"
+              />
+            </div>
+            <div className="carousel-legend-container">
+              <p className="carousel-legend">{element.nom}</p>
+            </div>
           </div>
         ))}
       </Carousel>

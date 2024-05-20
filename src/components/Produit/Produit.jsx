@@ -10,6 +10,7 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
   const dispatch = useDispatch();
 
   const { utilisateur } = useSelector((state) => state);
+
   function Restaurer() {
     axios
       .put(process.env.REACT_APP_URL + "/produit/restore/" + produit._id)
@@ -21,61 +22,125 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
       });
   }
 
+  const handleClick = () => {
+    if (utilisateur) {
+      navigate("/produit", { state: { produit } });
+    } else {
+      navigate("/connecter");
+      dispatch({
+        type: actions.error,
+        error: "Vous devez être connecté",
+      });
+    }
+  };
+
   return (
     <Stack
       m={"10px"}
-      position={"relative"}
-      height={400}
-      width={250}
       sx={{
-        background: "#bbcfe275",
-        padding: "5px",
-        borderRadius: "16px",
+        position: "relative",
+        height: 400,
+        width: 250,
+        borderRadius: "20px",
         cursor: "pointer",
+        boxShadow:
+          "0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1)",
+        overflow: "hidden",
+        "&:hover": {
+          boxShadow:
+            "0 6px 12px rgba(0, 0, 0, 0.15), 0 8px 30px rgba(0, 0, 0, 0.15)",
+        },
       }}
+      onClick={handleClick}
     >
+      <img
+        src={`http://localhost:5000/images/${produit.image}`}
+        alt={produit.nom}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          height: "100%",
+          width: "100%",
+          objectFit: "cover",
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          height: "100%",
+          width: "100%",
+          background: "rgba(0, 0, 0, 0.4)",
+          zIndex: 1,
+        }}
+      />
       <Typography
         sx={{
-          color: "#1976d2",
+          position: "absolute",
+          bottom: 80,
+          left: 20,
+          zIndex: 2,
           textDecoration: produit.supprime ? "line-through" : "none",
-          fontSize: 26,
-          fontWeight: 800,
+          fontSize: "22px",
+          lineHeight: "28px",
+          color: "#fff",
+          fontWeight: 700,
+          letterSpacing: "0.1em",
+          fontFamily: "Roboto, sans-serif",
+          textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
         }}
-        align="center"
       >
         {produit.nom}
       </Typography>
-      <Typography>{produit.prix + " DT"}</Typography>
-      <img
-        onClick={() => {
-          if (utilisateur) navigate("/produit", { state: { produit } });
-          else {
-            navigate("/connecter");
-            dispatch({
-              type: actions.error,
-              error: "Vous devez être connecté",
-            });
-          }
+      <Typography
+        sx={{
+          position: "absolute",
+          bottom: 50,
+          left: 20,
+          zIndex: 2,
+          textDecoration: produit.supprime ? "line-through" : "none",
+          fontSize: "20px",
+          lineHeight: "26px",
+          color: "#fff",
+          fontWeight: 500,
+          letterSpacing: "0.1em",
+          fontFamily: "Roboto, sans-serif",
+          textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
         }}
-        style={{ height: "100%", width: "auto", objectFit: "cover" }}
-        src={"http://localhost:5000/images/" + produit.image}
-      />
+      >
+        {produit.prix} DT
+      </Typography>
       <Stack
         width={"100%"}
         position={"absolute"}
-        bottom={5}
+        bottom={10}
         spacing={1}
         alignItems={"center"}
+        zIndex={2}
       >
         {produit.supprime ? (
-          <Button onClick={() => Restaurer()}>Restorer</Button>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              Restaurer();
+            }}
+            color="primary"
+            variant="contained"
+            sx={{ width: "118px" }}
+          >
+            Restaurer
+          </Button>
         ) : (
           utilisateur &&
           utilisateur.role !== "client" && (
             <>
               <Button
                 sx={{ width: "118px" }}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   clickModifier(produit);
                 }}
                 color="warning"
@@ -85,7 +150,8 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
               </Button>
               <Button
                 sx={{ width: "118px" }}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   supprimer(produit);
                 }}
                 color="error"

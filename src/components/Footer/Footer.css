@@ -1,33 +1,52 @@
-/* Footer.css */
-
+/* Style de base pour le pied de page */
 .footer {
-  background-color: #333;
+  background-color: #222;
   color: #fff;
-  padding: 20px;
+  padding: 50px 0;
 }
 
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Style pour les liens */
+.footer a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-.footer-links {
-  list-style-type: none;
+.footer a:hover {
+  color: #ccc;
+}
+
+/* Style pour les titres */
+.footer h3 {
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+/* Style pour les listes de liens */
+.footer ul {
   padding: 0;
   margin: 0;
 }
 
-.footer-links li {
-  display: inline;
-  margin-right: 20px;
+.footer ul li {
+  margin-bottom: 10px;
 }
 
-.footer-links li a {
-  color: #fff;
-  text-decoration: none;
+/* Style pour les colonnes */
+.footer .container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.footer-links li a:hover {
-  color: #ccc;
+.footer .col-md-6 {
+  width: calc(50% - 20px);
+}
+
+/* Media query pour ajuster le style sur les petits écrans */
+@media (max-width: 768px) {
+  .footer .col-md-6 {
+    width: 100%;
+    margin-bottom: 30px;
+  }
 }

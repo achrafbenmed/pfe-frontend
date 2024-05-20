@@ -28,7 +28,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  borderRadius: 2,
   boxShadow: 24,
   p: 4,
 };
@@ -65,7 +65,7 @@ const ProduitInfo = () => {
       return item.produit === p.produit;
     });
     if (exist) {
-      alert("déja pris");
+      alert("déjà pris");
       return;
     } else {
       dispatch({
@@ -108,29 +108,47 @@ const ProduitInfo = () => {
         frFR.components.MuiLocalizationProvider.defaultProps.localeText
       }
     >
-      <div>
+      <div style={{ padding: "20px" }}>
         <Typography
           textAlign={"center"}
           textTransform={"capitalize"}
           fontSize={45}
           fontWeight={900}
           fontStyle={"italic"}
+          sx={{ color: "#2c3e50", marginBottom: 3 }}
         >
           {location.state.produit.nom}
         </Typography>
         <Stack direction={"row"} spacing={3}>
-          <img
-            style={{ height: "65vh", width: "50vw", objectFit: "cover" }}
-            src={"http://localhost:5000/images/" + location.state.produit.image}
-          />
-          <Stack justifyContent={"space-between"} height={"20vh"}>
-            <Typography>{`Catégorie : ${location.state.produit.idCategorie.nom} `}</Typography>
-            <Typography>{`Prix : ${location.state.produit.prix} `}</Typography>
-            <Typography>{`Quantité disponible : ${location.state.produit.qte} `}</Typography>
-            <Button
-              onClick={() => {
-                setOpen(true);
+          <Box
+            sx={{
+              width: "50vw",
+              height: "65vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              style={{
+                maxHeight: "100%",
+                maxWidth: "100%",
+                objectFit: "contain",
               }}
+              src={
+                "http://localhost:5000/images/" + location.state.produit.image
+              }
+            />
+          </Box>
+          <Stack justifyContent={"space-between"} spacing={2} sx={{ flex: 1 }}>
+            <Typography variant="h6">{`Catégorie : ${location.state.produit.idCategorie.nom}`}</Typography>
+            <Typography variant="h6">{`Prix : ${location.state.produit.prix} DT`}</Typography>
+            <Typography variant="h6">{`Quantité disponible : ${location.state.produit.qte}`}</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpen(true)}
+              sx={{ alignSelf: "flex-start" }}
             >
               Passer une commande
             </Button>
@@ -140,20 +158,20 @@ const ProduitInfo = () => {
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box sx={style}>
           <form onSubmit={handleSubmit(ajoutReservation)}>
-            <Controller
-              control={control}
-              name="date_debut"
-              rules={{
-                required: {
-                  value: true,
-                  message: "Veiller saisir la date du début",
-                },
-              }}
-              render={({
-                field: { value, onChange },
-                fieldState: { error },
-              }) => {
-                return (
+            <Stack spacing={3}>
+              <Controller
+                control={control}
+                name="date_debut"
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Veiller saisir la date du début",
+                  },
+                }}
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
                   <>
                     <DatePicker
                       minDate={dayjs()}
@@ -163,27 +181,25 @@ const ProduitInfo = () => {
                       onChange={onChange}
                       format="DD/MM/YYYY"
                     />
-                    <Typography color={"red"}>
-                      {error && error.message}
-                    </Typography>
+                    {error && (
+                      <Typography color={"error"}>{error.message}</Typography>
+                    )}
                   </>
-                );
-              }}
-            />
-            <Controller
-              control={control}
-              name="date_fin"
-              rules={{
-                required: {
-                  value: true,
-                  message: "Veiller saisir la date du retour",
-                },
-              }}
-              render={({
-                field: { value, onChange },
-                fieldState: { error },
-              }) => {
-                return (
+                )}
+              />
+              <Controller
+                control={control}
+                name="date_fin"
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Veiller saisir la date du retour",
+                  },
+                }}
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
                   <>
                     <DatePicker
                       minDate={watch("date_debut")}
@@ -192,29 +208,26 @@ const ProduitInfo = () => {
                       onChange={onChange}
                       format="DD/MM/YYYY"
                     />
-                    <Typography color={"red"}>
-                      {error && error.message}
-                    </Typography>
+                    {error && (
+                      <Typography color={"error"}>{error.message}</Typography>
+                    )}
                   </>
-                );
-              }}
-            />
-
-            <Controller
-              control={control}
-              name="qte"
-              rules={{
-                max: {
-                  value: location.state.produit.qte,
-                  message: `Quantité maximale est ${location.state.produit.qte}`,
-                },
-                min: { value: 1, message: "Quantité minimale est 1" },
-              }}
-              render={({
-                field: { value, onChange },
-                fieldState: { error },
-              }) => {
-                return (
+                )}
+              />
+              <Controller
+                control={control}
+                name="qte"
+                rules={{
+                  max: {
+                    value: location.state.produit.qte,
+                    message: `Quantité maximale est ${location.state.produit.qte}`,
+                  },
+                  min: { value: 1, message: "Quantité minimale est 1" },
+                }}
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
                   <TextField
                     value={value}
                     onChange={onChange}
@@ -222,10 +235,12 @@ const ProduitInfo = () => {
                     error={!!error}
                     helperText={error && error.message}
                   />
-                );
-              }}
-            />
-            <Button type="submit">Ajouter une commande</Button>
+                )}
+              />
+              <Button type="submit" variant="contained" color="primary">
+                Ajouter une commande
+              </Button>
+            </Stack>
           </form>
         </Box>
       </Modal>
