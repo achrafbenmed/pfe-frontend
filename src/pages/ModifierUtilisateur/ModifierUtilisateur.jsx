@@ -19,32 +19,39 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import actions from "../../redux/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ModifierUtilisateur = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const utilisateur = location.state.utilisateur;
+  const { utilisateur } = useSelector((state) => state);
+  const utilisateurValue = location.state.utilisateur;
   const path = location.state.path;
   const navigate = useNavigate();
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      nom: utilisateur.nom,
-      prenom: utilisateur.prenom,
-      cin: utilisateur.cin,
-      email: utilisateur.email,
-      role: utilisateur.role,
-      tel: utilisateur.tel,
-      date_naissance: dayjs(utilisateur.date_naissance),
-      sexe: utilisateur.sexe,
+      nom: utilisateurValue.nom,
+      prenom: utilisateurValue.prenom,
+      cin: utilisateurValue.cin,
+      email: utilisateurValue.email,
+      role: utilisateurValue.role,
+      tel: utilisateurValue.tel,
+      date_naissance: dayjs(utilisateurValue.date_naissance),
+      sexe: utilisateurValue.sexe,
     },
   });
 
   const modifierSubmit = (data) => {
     axios
-      .put(process.env.REACT_APP_URL + "/utilisateur/" + utilisateur._id, data)
+      .put(
+        process.env.REACT_APP_URL + "/utilisateur/" + utilisateurValue._id,
+        data
+      )
       .then((reponse) => {
         dispatch({ type: actions.success, success: "Profil modifié" });
+        if (utilisateur._id === utilisateurValue._id) {
+          dispatch({ type: actions.seConnecter, utilisateur: reponse.data });
+        }
         navigate(path);
       })
       .catch((erreur) => {
@@ -59,7 +66,11 @@ const ModifierUtilisateur = () => {
       }
     >
       <div>
-        <h1>Modifier un Utilisateur existant</h1>
+        <h1>
+          {utilisateur._id === utilisateurValue._id
+            ? "Modifier votre profil"
+            : "Modifier un Utilisateur existant"}
+        </h1>
         <form onSubmit={handleSubmit(modifierSubmit)}>
           <Controller
             control={control}
@@ -173,26 +184,30 @@ const ModifierUtilisateur = () => {
               );
             }}
           />
-
-          <Controller
-            control={control}
-            name="role"
-            required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <Select
-                  value={value}
-                  onChange={onChange}
-                  label="Role d'Utilisateur"
-                >
-                  <MenuItem value="admin">Admin</MenuItem>
-                  <MenuItem value="client">Client</MenuItem>
-                  <MenuItem value="vendeur">Vendeur</MenuItem>
-                  <MenuItem value="vendeur_super">Super Vendeur</MenuItem>
-                </Select>
-              );
-            }}
-          />
+          {utilisateur.role == "admin" && (
+            <Controller
+              control={control}
+              name="role"
+              required
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
+                return (
+                  <Select
+                    value={value}
+                    onChange={onChange}
+                    label="Role d'Utilisateur"
+                  >
+                    <MenuItem value="admin">Admin</MenuItem>
+                    <MenuItem value="client">Client</MenuItem>
+                    <MenuItem value="vendeur">Vendeur</MenuItem>
+                    <MenuItem value="vendeur_super">Super Vendeur</MenuItem>
+                  </Select>
+                );
+              }}
+            />
+          )}
           <Button color="warning" variant="contained" type="submit">
             Modifier
           </Button>

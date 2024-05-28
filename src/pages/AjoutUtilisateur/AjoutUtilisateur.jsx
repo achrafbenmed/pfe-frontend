@@ -19,6 +19,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import actions from "../../redux/actions";
 import { useDispatch } from "react-redux";
+import "./AjoutUtilisateur.css";
 
 const AjoutUtilisateur = () => {
   const navigate = useNavigate();
@@ -55,158 +56,161 @@ const AjoutUtilisateur = () => {
         frFR.components.MuiLocalizationProvider.defaultProps.localeText
       }
     >
-      <div>
+      <div className="container">
         <h1>Ajouter un nouveau utilisateur</h1>
         <form onSubmit={handleSubmit(ajoutSubmit)}>
           <Controller
             control={control}
             name="nom"
             required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <TextField label="Nom" value={value} onChange={onChange} />
-              );
-            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextField
+                className="textField"
+                label="Nom"
+                value={value}
+                onChange={onChange}
+              />
+            )}
           />
           <Controller
             control={control}
             name="prenom"
             required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <TextField label="Prénom" value={value} onChange={onChange} />
-              );
-            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextField
+                className="textField"
+                label="Prénom"
+                value={value}
+                onChange={onChange}
+              />
+            )}
           />
           <Controller
             control={control}
             name="cin"
             required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <TextField
-                  label="Cin"
-                  type="number"
-                  value={value}
-                  onChange={onChange}
-                />
-              );
-            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextField
+                className="textField"
+                label="Cin"
+                type="number"
+                value={value}
+                onChange={onChange}
+              />
+            )}
           />
           <Controller
             control={control}
             name="tel"
             required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <TextField
-                  label="Numéro De Télephone"
-                  type="number"
-                  value={value}
-                  onChange={onChange}
-                />
-              );
-            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextField
+                className="textField"
+                label="Numéro De Télephone"
+                type="number"
+                value={value}
+                onChange={onChange}
+              />
+            )}
           />
           <Controller
             control={control}
             name="date_naissance"
             required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <DatePicker
-                  label="Date De Naissance"
-                  format="DD/MM/YYYY"
-                  value={value}
-                  onChange={onChange}
-                />
-              );
-            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <DatePicker
+                label="Date De Naissance"
+                format="DD/MM/YYYY"
+                value={value}
+                onChange={onChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            )}
           />
           <Controller
             control={control}
             name="sexe"
             required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <FormControl>
-                  <FormLabel id="demo-radio-buttons-group-label">
-                    Sexe
-                  </FormLabel>
-                  <RadioGroup
-                    value={value}
-                    onChange={onChange}
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="femme"
-                      control={<Radio />}
-                      label="Femme"
-                    />
-                    <FormControlLabel
-                      value="homme"
-                      control={<Radio />}
-                      label="Homme"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              );
-            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <FormControl className="radioGroup">
+                <FormLabel id="demo-radio-buttons-group-label">Sexe</FormLabel>
+                <RadioGroup
+                  value={value}
+                  onChange={onChange}
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                >
+                  <FormControlLabel
+                    value="femme"
+                    control={<Radio />}
+                    label="Femme"
+                  />
+                  <FormControlLabel
+                    value="homme"
+                    control={<Radio />}
+                    label="Homme"
+                  />
+                </RadioGroup>
+              </FormControl>
+            )}
           />
           <Controller
             control={control}
             name="email"
             required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <TextField
-                  label="Adresse Email"
-                  type="email"
-                  value={value}
-                  onChange={onChange}
-                />
-              );
-            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextField
+                className="textField"
+                label="Adresse Email"
+                type="email"
+                value={value}
+                onChange={onChange}
+              />
+            )}
           />
           <Controller
             control={control}
             name="mdp"
             required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <TextField
-                  label="Mot De Passe"
-                  type="password"
-                  value={value}
-                  onChange={onChange}
-                />
-              );
-            }}
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <TextField
+                className="textField"
+                label="Mot De Passe"
+                type="password"
+                value={value}
+                onChange={onChange}
+              />
+            )}
           />
           <Controller
             control={control}
             name="role"
             required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <FormControl className="selectField">
                 <Select
                   value={value}
                   onChange={onChange}
-                  label="Role d'Utilisateur"
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
                 >
+                  <MenuItem value="" disabled>
+                    Role d'Utilisateur
+                  </MenuItem>
                   <MenuItem value="admin">Admin</MenuItem>
                   <MenuItem value="client">Client</MenuItem>
                   <MenuItem value="vendeur">Vendeur</MenuItem>
                   <MenuItem value="vendeur_super">Super Vendeur</MenuItem>
                 </Select>
-              );
-            }}
+              </FormControl>
+            )}
           />
-          <Button color="success" variant="contained" type="submit">
-            Ajouter
-          </Button>
+          <div className="buttonContainer">
+            <Button color="success" variant="contained" type="submit">
+              Ajouter
+            </Button>
+          </div>
         </form>
       </div>
     </LocalizationProvider>

@@ -86,6 +86,7 @@ export default function ListCategories() {
     axios
       .post(process.env.REACT_APP_URL + "/categorie", { nom })
       .then((reponse) => {
+        dispatch({ type: actions.success, success: "Catégorier ajoutée" });
         getCategories();
         setOpen(false);
         setNom("");
@@ -143,6 +144,7 @@ export default function ListCategories() {
                     direction={"row"}
                     spacing={3}
                     justifyContent={"flex-end"}
+                    position={"relative"}
                   >
                     {utilisateur.role === "admin" && (
                       <>

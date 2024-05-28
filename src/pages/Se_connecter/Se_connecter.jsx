@@ -9,12 +9,14 @@ import {
   Stack,
   TextField,
   Typography,
+  getInitColorSchemeScript,
 } from "@mui/material";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import actions from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
+import { Block } from "@mui/icons-material";
 
 export default function Se_Connecter() {
   const navigate = useNavigate();
@@ -54,8 +56,17 @@ export default function Se_Connecter() {
           borderRadius={3}
           spacing={3}
         >
-          <Typography fontSize={35} textAlign={"center"} fontWeight={900}>
-            Se Connecter
+          <Typography
+            fontSize={"20px"}
+            lineHeight={"28px"}
+            color="#03053e"
+            textAlign={"center"}
+            fontWeight={"800"}
+            letterSpacing={"0.5em"}
+            fontFamily={"Generic, sans - serif"}
+            justifySelf={"center"}
+          >
+            SE CONNECTER
           </Typography>
 
           <Controller

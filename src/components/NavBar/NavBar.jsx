@@ -42,14 +42,6 @@ function NavBar() {
   const pages = [
     {
       id: 1,
-      text: "Produits",
-      action: () => {
-        navigate("/");
-      },
-      roles: ["client", "admin", "vendeur", "vendeur_super"],
-    },
-    {
-      id: 2,
       text: "Catégories",
       action: () => {
         navigate("/categorie");
@@ -57,7 +49,7 @@ function NavBar() {
       roles: ["admin", "vendeur", "vendeur_super"],
     },
     {
-      id: 3,
+      id: 2,
       text: "Utilisateurs",
       action: () => {
         navigate("/utilisateurs");
@@ -65,7 +57,7 @@ function NavBar() {
       roles: ["admin", "vendeur", "vendeur_super"],
     },
     {
-      id: 4,
+      id: 3,
       text: "Réservations",
       action: () => {
         navigate("/reservations");
@@ -117,7 +109,7 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Baby-Fashion
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -152,10 +144,18 @@ function NavBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
+              <MenuItem
+                onClick={() => {
+                  handleCloseNavMenu();
+                  navigate("/");
+                }}
+              >
+                <Typography textAlign="center">Home</Typography>
+              </MenuItem>
               {utilisateur &&
                 pages.map((page) => {
                   return (
-                    page.roles.includes(utilisateur.role) && (
+                    (page.roles.includes(utilisateur.role) || page.forAll) && (
                       <MenuItem
                         key={page.id}
                         onClick={() => {
@@ -171,10 +171,34 @@ function NavBar() {
               <MenuItem
                 onClick={() => {
                   handleCloseNavMenu();
+                  navigate("/contact");
+                }}
+              >
+                <Typography textAlign="center">Contact us</Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleCloseNavMenu();
+                  navigate("/AboutUs");
+                }}
+              >
+                <Typography textAlign="center">About us</Typography>
+              </MenuItem>
+
+              {/* <MenuItem
+                onClick={() => {
+                  handleCloseNavMenu();
                 }}
               >
                 <Typography textAlign="center">Contacter nous</Typography>
               </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleCloseNavMenu();
+                }}
+              >
+                <Typography textAlign="center">Contacter nous</Typography>
+              </MenuItem> */}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -194,13 +218,23 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Baby-Fashion
           </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Button
+              onClick={() => {
+                handleCloseNavMenu();
+                navigate("/");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Home
+            </Button>
             {utilisateur &&
               pages.map(
                 (page) =>
-                  page.roles.includes(utilisateur.role) && (
+                  (page.roles.includes(utilisateur.role) || page.forAll) && (
                     <Button
                       key={page.id}
                       onClick={() => {
@@ -213,6 +247,7 @@ function NavBar() {
                     </Button>
                   )
               )}
+
             <Button
               onClick={() => {
                 handleCloseNavMenu();
@@ -220,7 +255,16 @@ function NavBar() {
               }}
               sx={{ my: 2, color: "white", display: "block" }}
             >
-              Contacter nous
+              CONTACT US
+            </Button>
+            <Button
+              onClick={() => {
+                handleCloseNavMenu();
+                navigate("/AboutUs");
+              }}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              ABOUT US
             </Button>
           </Box>
           {utilisateur && (

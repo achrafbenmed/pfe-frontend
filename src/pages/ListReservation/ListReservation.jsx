@@ -240,18 +240,6 @@ const ListReservation = () => {
                   <TableCell>{reservation.montantTotal}</TableCell>
                   <TableCell>{reservation.etat}</TableCell>
                   <TableCell align="right">
-                    {reservation.etat == "envoyé" &&
-                      utilisateur._id === reservation.id_utilisateur._id && (
-                        <Button
-                          onClick={() => {
-                            annulerReservation(reservation);
-                          }}
-                          color="error"
-                          variant="contained"
-                        >
-                          Annuler
-                        </Button>
-                      )}
                     {reservation.etat == "envoyé" && (
                       <>
                         <Button

@@ -1,0 +1,61 @@
+/* Container for the form */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Styling for TextField and Select components */
+.textField,
+.selectField {
+  margin-bottom: 20px;
+}
+
+.radioGroup {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.textField input,
+.selectField div,
+.radioGroup div,
+.radioGroup label,
+.buttonContainer button {
+  padding: 10px;
+}
+
+/* Button container styling */
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+}
+
+/* Submit button styling */
+.buttonContainer button {
+  width: 100%;
+  max-width: 200px;
+  padding: 10px 0;
+  font-size: 16px;
+  border-radius: 25px;
+  text-transform: none;
+}

@@ -21,6 +21,8 @@ import Panier from "./pages/Panier/Panier";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import Footer from "./components/Footer/Footer";
+import HomePage from "./pages/HomePage/HomePage";
+import Produit from "./components/Produit/Produit";
 
 function Navigateur() {
   const { utilisateur, error, success } = useSelector((state) => state);
@@ -55,10 +57,10 @@ function Navigateur() {
       </Snackbar>
 
       <Stack direction={"column"}>
-        <Stack sx={{ position: "relative !important" }}>
+        <Stack sx={{ position: "relative !important", minHeight: "450px" }}>
           {utilisateur ? (
             <Routes>
-              <Route path="/" Component={Home} />
+              <Route path="/" Component={HomePage} />
               <Route path="/ajout_produit" Component={AjoutProduit} />
               <Route path="/produit" Component={ProduitInfo} />
               <Route path="/produit/:id" Component={ModifierProduit} />
@@ -75,15 +77,18 @@ function Navigateur() {
               <Route path="/panier" Component={Panier} />
               <Route path="/contact" Component={ContactUs} />
               <Route path="/AboutUs" Component={AboutUs} />
+              <Route path="/home" Component={Home} />
+
               <Route path="*" Component={Page404} />
             </Routes>
           ) : (
             <Routes>
-              <Route path="/" Component={Home} />
+              <Route path="/" Component={HomePage} />
               <Route path="/inscrire" Component={Inscrire} />
               <Route path="/connecter" Component={Se_Connecter} />
               <Route path="/contact" Component={ContactUs} />
               <Route path="/AboutUs" Component={AboutUs} />
+              <Route path="/home" Component={Home} />
             </Routes>
           )}
         </Stack>

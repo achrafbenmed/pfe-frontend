@@ -125,13 +125,13 @@ const ListUser = () => {
                 },
               }}
             >
-              <TableCell component="th">cin catégorie</TableCell>
-              <TableCell component="th">prenom catégorie</TableCell>
-              <TableCell component="th">Nom catégorie</TableCell>
-              <TableCell component="th">email catégorie</TableCell>
-              <TableCell component="th">role catégorie</TableCell>
-              <TableCell component="th">tel catégorie</TableCell>
-              <TableCell component="th">date naissance catégorie</TableCell>
+              <TableCell component="th">cin </TableCell>
+              <TableCell component="th">prenom </TableCell>
+              <TableCell component="th">Nom </TableCell>
+              <TableCell component="th">email </TableCell>
+              <TableCell component="th">role</TableCell>
+              <TableCell component="th">tel </TableCell>
+              <TableCell component="th">date naissance </TableCell>
               <TableCell component="th">sexe </TableCell>
 
               <TableCell align="center" component="th">

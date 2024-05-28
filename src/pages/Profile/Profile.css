@@ -1,0 +1,103 @@
+/* Profile.css */
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 40px;
+  max-width: 900px;
+  margin: 80px auto;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.profile-container:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.profile-container h1 {
+  font-size: 3rem;
+  color: #2c3e50;
+  margin-bottom: 40px;
+  text-align: center;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 20px;
+}
+
+.profile-info {
+  width: 100%;
+  background-color: #f9f9f9;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.profile-info p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  font-size: 1.3rem;
+  color: #555;
+}
+
+.profile-info p span:first-child {
+  font-weight: 600;
+  color: #34495e;
+  flex: 1;
+}
+
+.profile-info p span:last-child {
+  flex: 2;
+  text-align: right;
+  color: #2c3e50;
+}
+
+.profile-button {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.profile-button .MuiButton-root {
+  background-color: #e67e22;
+  color: #fff;
+  padding: 15px 40px;
+  font-size: 1.3rem;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.profile-button .MuiButton-root:hover {
+  background-color: #d35400;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 30px 20px;
+  }
+
+  .profile-info {
+    padding: 30px;
+  }
+
+  .profile-info p {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-info p span:first-child,
+  .profile-info p span:last-child {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .profile-info p span:last-child {
+    text-align: left;
+    color: #555;
+  }
+}

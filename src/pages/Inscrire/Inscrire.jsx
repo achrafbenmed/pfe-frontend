@@ -65,8 +65,17 @@ export default function Inscrire() {
         justifyContent={"center"}
         alignItems={"center"}
       >
-        <Typography fontSize={35} textAlign={"center"} fontWeight={900}>
-          S'inscrire
+        <Typography
+          fontSize={"20px"}
+          lineHeight={"28px"}
+          color="#03053e"
+          textAlign={"center"}
+          fontWeight={"800"}
+          letterSpacing={"0.5em"}
+          fontFamily={"Generic, sans - serif"}
+          justifySelf={"center"}
+        >
+          INSCRIRE
         </Typography>
         <form onSubmit={handleSubmit(inscrireAction)}>
           <Stack
