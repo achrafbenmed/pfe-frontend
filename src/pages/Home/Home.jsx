@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Produit from "../../components/Produit/Produit";
 import { useNavigate } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
@@ -55,13 +55,14 @@ const Home = () => {
         dispatch({ type: actions.error, error: erreur.message })
       );
   }
+
   useEffect(() => {
     if (utilisateur && utilisateur.role === "admin") {
       tousProduits();
     } else {
       listeProduits();
     }
-  }, []);
+  }, [utilisateur]);
 
   // Fonction pour choisir des éléments aléatoires
   function choisirElementsAleatoires(tableau, nombre) {
@@ -93,10 +94,17 @@ const Home = () => {
   let elementsAleatoires = choisirElementsAleatoires(produits, 5);
 
   return (
-    <Stack height={"100%"} position={"relative"}>
+    <Stack height={"100%"} position={"relative"} p={2} spacing={2}>
       {utilisateur && utilisateur.role === "admin" && (
         <Button
-          sx={{ width: 200, m: "5px" }}
+          sx={{
+            width: 200,
+            mb: 2,
+            backgroundColor: "#4caf50",
+            "&:hover": {
+              backgroundColor: "#45a049",
+            },
+          }}
           color="success"
           variant="contained"
           onClick={() => {
@@ -108,21 +116,19 @@ const Home = () => {
       )}
       {(utilisateur == null || utilisateur.role == "client") &&
         elementsAleatoires && <Carrousel elements={elementsAleatoires} />}
-      <Stack alignItems={"flex-start"} flexDirection={"row"}>
+      <Stack alignItems={"flex-start"} flexDirection={"row"} spacing={2}>
         <Search setProduits={setFiltredProduits} produits={produits} />
 
-        <Stack direction={"row"} flex={1} flexWrap={"wrap"}>
-          {filtredProduits.map((produit) => {
-            return (
-              <Produit
-                key={produit._id}
-                produit={produit}
-                supprimer={supprimer}
-                clickModifier={clickModifier}
-                getAll={tousProduits}
-              />
-            );
-          })}
+        <Stack direction={"row"} flex={1} flexWrap={"wrap"} gap={2}>
+          {filtredProduits.map((produit) => (
+            <Produit
+              key={produit._id}
+              produit={produit}
+              supprimer={supprimer}
+              clickModifier={clickModifier}
+              getAll={tousProduits}
+            />
+          ))}
         </Stack>
       </Stack>
     </Stack>

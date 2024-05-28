@@ -32,18 +32,18 @@ const AboutUs = () => {
     <StyledBox style={{ background: "#f9f9f9" }}>
       <Container>
         <Typography variant="h3" sx={{ fontWeight: "bold", marginBottom: 4 }}>
-          Bienvenue chez [Nom de l'entreprise]
+          Bienvenue chez BABY-FASHION
         </Typography>
         <Typography variant="body1" sx={{ marginBottom: 6 }}>
-          Chez [Nom de l'entreprise], nous croyons en l'élégance sans effort et
-          en la confiance que vous ressentez lorsque vous portez le vêtement
-          parfait pour chaque occasion.
+          Chez BABY-FASHION, nous croyons en l'élégance sans effort et en la
+          confiance que vous ressentez lorsque vous portez le vêtement parfait
+          pour chaque occasion.
         </Typography>
         <Grid container spacing={4} justifyContent="center">
           <Feature
             icon="👗"
             title="Large sélection"
-            description="Découvrez une large sélection de vêtements de haute qualité pour hommes, femmes et enfants, adaptés à toutes les occasions."
+            description="Découvrez une large sélection de vêtements de haute qualité pour  enfants, adaptés à toutes les occasions."
           />
           <Feature
             icon="💼"

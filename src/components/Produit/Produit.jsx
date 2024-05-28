@@ -113,6 +113,24 @@ const Produit = ({ produit, supprimer, clickModifier, getAll }) => {
       >
         {produit.prix} DT
       </Typography>
+      <Typography
+        sx={{
+          position: "absolute",
+          bottom: 20,
+          left: 20,
+          zIndex: 2,
+          textDecoration: produit.supprime ? "line-through" : "none",
+          fontSize: "20px",
+          lineHeight: "26px",
+          color: "#fff",
+          fontWeight: 500,
+          letterSpacing: "0.1em",
+          fontFamily: "Roboto, sans-serif",
+          textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
+        }}
+      >
+        {produit.taille} ANS
+      </Typography>
       <Stack
         width={"100%"}
         position={"absolute"}

@@ -61,7 +61,7 @@ const AjoutProduit = () => {
         },
       })
       .then((reponse) => {
-        navigate("/");
+        navigate("/home");
       })
       .catch((erreur) => {
         dispatch({ type: actions.error, error: erreur.message });

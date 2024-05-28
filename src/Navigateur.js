@@ -57,7 +57,7 @@ function Navigateur() {
       </Snackbar>
 
       <Stack direction={"column"}>
-        <Stack sx={{ position: "relative !important" }}>
+        <Stack sx={{ position: "relative !important", minHeight: "450px" }}>
           {utilisateur ? (
             <Routes>
               <Route path="/" Component={HomePage} />

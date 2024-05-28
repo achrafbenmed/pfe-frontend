@@ -184,26 +184,30 @@ const ModifierUtilisateur = () => {
               );
             }}
           />
-
-          <Controller
-            control={control}
-            name="role"
-            required
-            render={({ field: { value, onChange }, fieldState: { error } }) => {
-              return (
-                <Select
-                  value={value}
-                  onChange={onChange}
-                  label="Role d'Utilisateur"
-                >
-                  <MenuItem value="admin">Admin</MenuItem>
-                  <MenuItem value="client">Client</MenuItem>
-                  <MenuItem value="vendeur">Vendeur</MenuItem>
-                  <MenuItem value="vendeur_super">Super Vendeur</MenuItem>
-                </Select>
-              );
-            }}
-          />
+          {utilisateur.role == "admin" && (
+            <Controller
+              control={control}
+              name="role"
+              required
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => {
+                return (
+                  <Select
+                    value={value}
+                    onChange={onChange}
+                    label="Role d'Utilisateur"
+                  >
+                    <MenuItem value="admin">Admin</MenuItem>
+                    <MenuItem value="client">Client</MenuItem>
+                    <MenuItem value="vendeur">Vendeur</MenuItem>
+                    <MenuItem value="vendeur_super">Super Vendeur</MenuItem>
+                  </Select>
+                );
+              }}
+            />
+          )}
           <Button color="warning" variant="contained" type="submit">
             Modifier
           </Button>

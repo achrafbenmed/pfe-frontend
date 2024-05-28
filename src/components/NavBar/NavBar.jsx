@@ -200,7 +200,7 @@ function NavBar() {
             <Button
               onClick={() => {
                 handleCloseNavMenu();
-                navigate("/home");
+                navigate("/");
               }}
               sx={{ my: 2, color: "white", display: "block" }}
             >
